@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AssessmentQueryResult } from '../Dashboard/Dashboard';
 import { Card, Col, Row, Skeleton, Tag } from 'antd';
-import { Language, languagesNameMap } from '../common/CodeEditor/ProgrammingLanguages';
 import TestCaseTable from '../common/CodeEditor/TestCaseTable';
 import { InputOutput } from '../../types/Models';
 import { useLocation, useParams } from 'react-router';
@@ -12,15 +11,12 @@ import dayjs from 'dayjs';
 import QuestionContent from '../common/CodeEditor/QuestionContent';
 import Editor from '../common/CodeEditor/Editor'
 import {  Challenge } from '../../types/Models';
-import CodeMirror from '@uiw/react-codemirror';
 
 const ReportPage: React.FC = () => {
     const state = useLocation().state;
     const assessmentFromLocation = state?.assessment as AssessmentQueryResult[number];
     const [assessment, setAssessment] = useState(assessmentFromLocation);
     const [loading, setLoading] = useState(true);
-    // const language = languagesNameMap[assessment?.language] || languagesNameMap[Language.JAVASCRIPT];
-
     const { assessmentId } = useParams<{ assessmentId: string }>();
 
     useEffect(() => {
@@ -43,10 +39,10 @@ const ReportPage: React.FC = () => {
     const score = CandidateAssessmentUtils.getScore(assessment);
 
     const challenge : Challenge = {
-        created_at: assessment.challenge.created_at,
-        description: assessment.challenge.description,
-        difficulty: assessment.challenge.difficulty,
-        id: assessment.challenge.id,
+        created_at: assessment?.challenge?.created_at,
+        description: assessment?.challenge?.description,
+        difficulty: assessment?.challenge?.difficulty,
+        id: assessment?.challenge?.id,
         input_output: assessment?.challenge?.input_output as unknown as InputOutput,
         name: assessment?.challenge?.name,
         short_description: assessment?.challenge?.short_description,

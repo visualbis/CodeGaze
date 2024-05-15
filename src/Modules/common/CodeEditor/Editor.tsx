@@ -187,7 +187,6 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
     };
 
     useAutosave({ data: code, onSave: saveCode, interval: 1000 });
-    console.log(challenge);
     
     return (
         <div>
