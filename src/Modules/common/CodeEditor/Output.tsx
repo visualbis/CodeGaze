@@ -10,6 +10,7 @@ interface OutputProps {
     handleTestCase: () => void;
     submitLoading: boolean;
     handleSubmit: () => void;
+    isReportPage: boolean;
 }
 
 const Output = (props: OutputProps) => {
@@ -32,7 +33,7 @@ const Output = (props: OutputProps) => {
                 >
                     Run Test Cases
                 </Button>
-                <Popconfirm
+                {!props.isReportPage && <Popconfirm
                     title="Submit the assessment"
                     description="Are you sure you want to submit?"
                     okText="Yes"
@@ -42,7 +43,7 @@ const Output = (props: OutputProps) => {
                     <Button loading={props.submitLoading} type="primary" icon={<FileDoneOutlined />}>
                         Submit
                     </Button>
-                </Popconfirm>
+                </Popconfirm>}
             </div>
             <div
                 style={{
