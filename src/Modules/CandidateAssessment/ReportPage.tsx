@@ -8,7 +8,6 @@ import { CandidateAssessmentAPIService } from './services/CandidateAssessment.AP
 import CandidateAssessmentUtils from './services/CanidadateAssessment.utils';
 import { QUALIFYING_SCORE } from '../../constants/common.constants';
 import dayjs from 'dayjs';
-import QuestionContent from '../common/CodeEditor/QuestionContent';
 import Editor from '../common/CodeEditor/Editor'
 import {  Challenge } from '../../types/Models';
 
