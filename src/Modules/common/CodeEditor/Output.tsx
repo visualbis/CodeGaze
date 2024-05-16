@@ -10,7 +10,7 @@ interface OutputProps {
     handleTestCase: () => void;
     submitLoading: boolean;
     handleSubmit: () => void;
-    isReportPage: boolean;
+    hideSubmitButton: boolean;
 }
 
 const Output = (props: OutputProps) => {
@@ -33,7 +33,7 @@ const Output = (props: OutputProps) => {
                 >
                     Run Test Cases
                 </Button>
-                {!props.isReportPage && <Popconfirm
+                {!props.hideSubmitButton && <Popconfirm
                     title="Submit the assessment"
                     description="Are you sure you want to submit?"
                     okText="Yes"

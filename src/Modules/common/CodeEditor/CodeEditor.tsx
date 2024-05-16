@@ -14,7 +14,7 @@ interface ICodeEditorProps {
     code: string;
     codeEditorLang: languageObjectType['lang'];
     handleCodeChange: (value: string) => void;
-    isReportPage: boolean;
+    hideLanguageSelection: boolean;
 }
 
 const options = Object.entries(ProgrammingLanguages).map(([key, value]) => ({
@@ -32,7 +32,7 @@ const CodeEditor = (props: ICodeEditorProps) => {
                     onChange={(value) => props.handleLanguageChange(value as languageNameType)}
                     style={{ width: '7rem' }}
                     options={options}
-                    disabled={props.isReportPage? true : false}                    
+                    disabled={props.hideLanguageSelection? true : false}                    
                 />
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                     {lastSaved && <div className="last-saved">Last Saved at {dayjs(lastSaved).format('hh:mm ss')}</div>}

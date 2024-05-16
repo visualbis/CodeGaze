@@ -39,9 +39,7 @@ interface IProps {
 }
 
 const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
-
-    const screenSize = isReportPage? [0, '100%', 750] : [600, '100%', 750];
-    const [sizes, setSizes] = useState(screenSize);
+    const [sizes, setSizes] = useState([600, '100%', 750]);
     const [selectEditorLanguage, setSelectEditorLanguage] = useState<languageObjectType>(
         languagesNameMap[assessment?.language] || ProgrammingLanguages.javaScript,
     );
@@ -199,9 +197,9 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
                         return <div></div>;
                     }}
                 >
-                    {!isReportPage && <Pane>
+                     <Pane>
                         <QuestionContent challenge={challenge} editorStyles={{ height: 'calc(100% - 30px)' }} />
-                    </Pane>}
+                    </Pane>
                     <Pane className={classes.Resizer} style={{ margin: '2px'}}>
                         <CodeEditor
                             languageName={selectEditorLanguage.name}
@@ -213,7 +211,7 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
                             lastSaved={lastSaved}
                             codeEditorLang={selectEditorLanguage.lang}
                             handleCodeChange={handleCodeChange}
-                            isReportPage ={isReportPage}
+                            hideLanguageSelection ={isReportPage}
                         />
                     </Pane>
                     <Pane>
@@ -226,7 +224,7 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
                                 handleTestCase={handleTestCase}
                                 submitLoading={submitLoading}
                                 handleSubmit={handleSubmit}
-                                isReportPage = {isReportPage}
+                                hideSubmitButton = {isReportPage}
                             />
                             <Title level={4}>
                                 Test Cases{' '}

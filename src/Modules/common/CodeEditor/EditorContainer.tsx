@@ -42,7 +42,6 @@ const EditorContainer = () => {
         }
         loadChallenge();
     }, [challengeId, candidate, state]);
-    console.log(challenge);
     
 
     const allDepsLoaded = assessment && challenge && candidate;

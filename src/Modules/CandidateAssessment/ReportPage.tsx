@@ -102,20 +102,7 @@ const ReportPage: React.FC = () => {
                             </p>
                         </Card>
                     </Col>
-                    <Row gutter={[16, 16]}>
-                        <Col span={24}>
-                            <Card title={assessment?.challenge?.name}>
-                                <QuestionContent
-                                    challenge={assessment?.challenge}
-                                    hideTitle={true}
-                                    editorStyles={{
-                                        height: '200px',
-                                        overflowY: 'auto',
-                                        width: `calc(100vw - 7.5rem)`,
-                                    }}
-                                />
-                            </Card>
-                        </Col>
+                    <Row gutter={[0, 16]} style={{width:'100%'}}>
                         <Col span={24}>
                             <Card >
                                 <TestCaseTable
