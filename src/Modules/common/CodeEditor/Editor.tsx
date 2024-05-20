@@ -29,6 +29,8 @@ import { ROUTES } from '../../../constants/Route.constants';
 import './styles/Editor.css';
 import { Typography } from 'antd';
 import { invokeSupabaseFunction } from '../../API/APIUtils';
+import jwt_decode from 'jwt-decode';
+import Timer from '../../CandidateAssessment/components/Timer';
 const { Title } = Typography;
 
 interface IProps {
@@ -50,6 +52,9 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [testCaseLoading, setTestCaseLoading] = useState(false);
     const [lastSaved, setlastSaved] = useState(null);
+    const expiry = (jwt_decode(candidate?.token) as { exp: number })?.exp;
+    const now = Date.now() / 1000;
+    const timeLeft = Math.round(expiry - now);
 
     const evaluator = new CodeEvaluator(
         selectEditorLanguage.name,
@@ -183,6 +188,10 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
         setSubmitLoading(false);
     };
 
+    const handleTimeout = ()=>{
+        handleSubmit();
+    }
+
     useAutosave({ data: code, onSave: saveCode, interval: 1000 });
 
     return (
@@ -213,7 +222,10 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
                         />
                     </Pane>
                     <Pane>
-                        <div className="output-container" style={{ padding: '1rem' }}>
+                        {expiry && <div style={{padding: '0 2rem'}}>
+                            <Timer timeLeft={timeLeft} onTimeout={handleTimeout}/>
+                        </div>}
+                        <div className="output-container" style={{ padding: '0 1rem' }}>
                             <Output
                                 output={output}
                                 runLoading={runLoading}

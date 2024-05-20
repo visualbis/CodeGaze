@@ -2,30 +2,25 @@ import { Button, Form, Layout, Popconfirm, Select, Space } from 'antd';
 
 const { Option } = Select;
 
-const handleTimeLimitChange = (value) => {
-    // Handle the selected time limit
-    console.log(value);
-};
-
-const ExamSettings = ({ onChange, onDelete }) => {
+const ExamSettings = ({ addDuration, onDelete, duration }) => {
   
     return (
         <Layout style={{ padding: '24px' }}>
             <Form>
                 <Form.Item label="Time limit">
                     <Space direction="horizontal">
-                        <Select placeholder="No hour limit" style={{ width: 180 }} onChange={handleTimeLimitChange}>
-                            <Option value="0">0 hr</Option>
-                            <Option value="1">1 hr</Option>
-                            <Option value="2">2 hr</Option>
-                            <Option value="3">3 hr</Option>
+                        <Select placeholder="No hour limit" value={`${duration.hr} hr`} style={{ width: 180 }} onChange={addDuration}>
+                            <Option value="0 hr">0 hr</Option>
+                            <Option value="1 hr">1 hr</Option>
+                            <Option value="2 hr">2 hr</Option>
+                            <Option value="3 hr">3 hr</Option>
                             {/* Add more options as needed */}
                         </Select>
-                        <Select placeholder="No minute limit" style={{ width: 180 }} onChange={handleTimeLimitChange}>
-                            <Option value="00">00</Option>
-                            <Option value="15">15</Option>
-                            <Option value="30">30</Option>
-                            <Option value="45">45</Option>
+                        <Select placeholder="No minute limit" value={`${duration.min} min`} style={{ width: 180 }} onChange={addDuration}>
+                            <Option value="00 min">00 min</Option>
+                            <Option value="15 min">15 min</Option>
+                            <Option value="30 min">30 min</Option>
+                            <Option value="45 min">45 min</Option>
                             {/* Add more options as needed */}
                         </Select>
                     </Space>

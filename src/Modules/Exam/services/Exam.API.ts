@@ -40,6 +40,7 @@ export class ExamAPIService {
         return data || null;
     }
 
+
     static async create(exam: ExamInsertDto) {
         const { data, error } = await supabase.from('exam').insert(exam).select('*,challenge(*)');
         if (error) {
