@@ -13,12 +13,18 @@ import { ExamAPIService } from './services/Exam.API';
 import { ROUTES } from '../../constants/Route.constants';
 
 export type ChallengeResult = Awaited<ReturnType<typeof ChallengeAPIService.getAll>>;
+interface Time {
+    hr: number,
+    min: number
+}
 
 const ExamDetail = () => {
     const { state } = useLocation();
     const exam = state?.exam as ExamQueryResult[number];
     const [name, setName] = useState(exam?.name || '');
     const [challenges, setChallenges] = useState<ChallengeResult>([]);
+    const [time, setTime] = useState<Time>({hr: ~~(exam.duration/60), min: exam.duration%60})
+    // const [duration, setDuration] = useState(exam?.duration || 0);
     const [selectedChallenges, setSelectedChallenges] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState<boolean>(true);
     const [saveLoading, setSaveLoading] = useState<boolean>(false);
@@ -44,8 +50,12 @@ const ExamDetail = () => {
         });
     };
 
-    const handleSettingsChange = () => {
-        return null;
+    const handleSettingsChange = (value) => {
+        const Timeduration = value.split(" ");
+        setTime({
+            ...time,
+            [Timeduration[1]] : Number(Timeduration[0])
+        })
     };
 
     const fetchChallenges = async () => {
@@ -73,14 +83,27 @@ const ExamDetail = () => {
                 [...challengesFromExam].every((challengeId) => selectedChallenges.has(challengeId))
             );
             const hasNameChanged = name !== exam.name;
+            const hasDurationChanged = ((time.hr*60) + time.min) !== exam.duration;
             if (hasChallengesChanged) await ExamAPIService.updateExamChallenges(exam.id, selectedChallenges);
             if (hasNameChanged) await saveExamName(name);
+            if(hasDurationChanged) await saveDuration((time.hr*60) + time.min);
         } catch (error) {
             toast.error(error?.message || 'Error saving exam');
         } finally {
             setSaveLoading(false);
         }
     };
+
+    const saveDuration = async (duration: number) => {
+        try {
+            await ExamAPIService.update({
+                id: exam.id,
+                duration
+            })
+        } catch (error) {
+            toast.error(error?.message || 'Error saving exam');
+        }
+    }
 
     const saveExamName = async (name: string) => {
         try {
@@ -149,7 +172,7 @@ const ExamDetail = () => {
                     </TabPane>
 
                     <TabPane tab="Settings" key="2">
-                        <ExamSettings onDelete={onDelete} onChange={handleSettingsChange} />
+                        <ExamSettings onDelete={onDelete} duration={time} addDuration={handleSettingsChange} />
                     </TabPane>
                 </Tabs>
             </div>

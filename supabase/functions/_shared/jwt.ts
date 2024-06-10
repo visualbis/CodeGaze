@@ -3,9 +3,9 @@ const { create, getNumericDate, verify } = djwt
 
 
 const algorithm = "HS512"
-export const createJWT = async (data) => {
-    const TWO_AND_A_HALF_HOURS = 60 * 60 * 2.5;
-    return await create({ alg: algorithm, typ: "JWT" }, { ...data, exp: getNumericDate(TWO_AND_A_HALF_HOURS) }, Deno.env.get('JWT_SECRET'))
+export const createJWT = async (data, duration : number) => {
+    const DURATION = (duration !== 0 && duration !== null ? 60 * duration : 60 * 60 * 2);
+    return await create({ alg: algorithm, typ: "JWT" }, { ...data, exp: getNumericDate(DURATION) }, Deno.env.get('JWT_SECRET'))
 }
 
 export const verifyJWT = async (token) => {
