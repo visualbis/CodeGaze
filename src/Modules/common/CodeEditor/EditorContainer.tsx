@@ -42,10 +42,11 @@ const EditorContainer = () => {
         }
         loadChallenge();
     }, [challengeId, candidate, state]);
+    
 
     const allDepsLoaded = assessment && challenge && candidate;
     return allDepsLoaded ? (
-        <Editor assessment={assessment} challenge={challenge} candidate={candidate} />
+        <Editor assessment={assessment} challenge={challenge} candidate={candidate} isReportPage={false} />
     ) : (
         <div style={{ padding: '1rem' }}>
             <Skeleton />

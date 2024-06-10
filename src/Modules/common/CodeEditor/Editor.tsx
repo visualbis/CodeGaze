@@ -30,14 +30,15 @@ import './styles/Editor.css';
 import { Typography } from 'antd';
 import { invokeSupabaseFunction } from '../../API/APIUtils';
 const { Title } = Typography;
-
+    
 interface IProps {
     assessment: IRootState['assessment'];
     challenge: Challenge;
     candidate: IRootState['candidate'];
+    isReportPage: boolean;
 }
 
-const Editor = ({ challenge, assessment, candidate }: IProps) => {
+const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
     const [sizes, setSizes] = useState([600, '100%', 750]);
     const [selectEditorLanguage, setSelectEditorLanguage] = useState<languageObjectType>(
         languagesNameMap[assessment?.language] || ProgrammingLanguages.javaScript,
@@ -184,7 +185,7 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
     };
 
     useAutosave({ data: code, onSave: saveCode, interval: 1000 });
-
+    
     return (
         <div>
             <div className={classes.main} style={{ padding: '1rem' }}>
@@ -196,10 +197,10 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
                         return <div></div>;
                     }}
                 >
-                    <Pane>
+                     <Pane>
                         <QuestionContent challenge={challenge} editorStyles={{ height: 'calc(100% - 30px)' }} />
                     </Pane>
-                    <Pane className={classes.Resizer} style={{ margin: '2px' }}>
+                    <Pane className={classes.Resizer} style={{ margin: '2px'}}>
                         <CodeEditor
                             languageName={selectEditorLanguage.name}
                             handleLanguageChange={handleLanguageChange}
@@ -210,6 +211,7 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
                             lastSaved={lastSaved}
                             codeEditorLang={selectEditorLanguage.lang}
                             handleCodeChange={handleCodeChange}
+                            hideLanguageSelection ={isReportPage}
                         />
                     </Pane>
                     <Pane>
@@ -222,6 +224,7 @@ const Editor = ({ challenge, assessment, candidate }: IProps) => {
                                 handleTestCase={handleTestCase}
                                 submitLoading={submitLoading}
                                 handleSubmit={handleSubmit}
+                                hideSubmitButton = {isReportPage}
                             />
                             <Title level={4}>
                                 Test Cases{' '}
