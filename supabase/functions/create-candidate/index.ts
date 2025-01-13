@@ -9,21 +9,22 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
-  const { emailId, name } = await req.json();
-
+  const { emailId, name, examId } = await req.json();
+  
 
   const candidate = {
     emailId,
-    name
+    name,
   };
+  
 
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL'),
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'))
 
   try {
-
-    const token = await createJWT(candidate)
+    const {data : duration} = await supabase.from('exam').select('duration').eq('id', examId).single();
+    const token = await createJWT(candidate, duration.duration)
 
     const response = await supabase
       .from('candidate')

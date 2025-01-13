@@ -16,6 +16,7 @@ import CommonUtils from '../common/utils/Common.utils';
 const { Title } = Typography;
 
 const ChallengesListComponent = () => {
+    const navigate = useNavigate();
     const { examId, candidateId } = useParams();
     const candidate = useSelector((state: IRootState) => state.candidate);
     const [loading, setLoading] = useState(true);
@@ -69,6 +70,11 @@ const ChallengesListComponent = () => {
         }
     };
 
+    const handleTimeout = ()=>{
+        dispatch.assessment.clear();
+        navigate(ROUTES.ASSESSMENT_OVER);
+    }
+
     const expiry = (jwt_decode(candidate?.token) as { exp: number })?.exp;
     const now = Date.now() / 1000;
     const timeLeft = Math.round(expiry - now);
@@ -78,7 +84,7 @@ const ChallengesListComponent = () => {
             <Title level={2}>Welcome to the Assessment</Title>
             <div className="flex-container justify-between">
                 <Title level={4}>Instructions</Title>
-                <Timer timeLeft={timeLeft} />
+                <Timer timeLeft={timeLeft} onTimeout={handleTimeout}/>
             </div>
             <p>
                 Welcome to the coding test for your interview! Please select a challenge from the list below to begin.

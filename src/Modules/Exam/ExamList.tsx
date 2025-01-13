@@ -150,6 +150,9 @@ const ExamList = () => {
                                             <Col span={6}>
                                                 <Statistic title="Challenges" value={exam.challenge.length} />
                                             </Col>
+                                            <Col span={6}>
+                                                <Statistic title="Duration" value={exam.duration? `${~~(exam.duration/60)}hr ${exam.duration%60}mins`: 0} />
+                                            </Col>
                                         </Row>
                                         <Divider></Divider>
                                         <Row className="actions-container">

@@ -86,6 +86,7 @@ export type Database = {
           id: string
           name: string | null
           token: string | null
+          examId : string | null
         }
         Insert: {
           created_at?: string | null
@@ -93,6 +94,7 @@ export type Database = {
           id?: string
           name?: string | null
           token?: string | null
+          examId? : string | null
         }
         Update: {
           created_at?: string | null
@@ -100,6 +102,7 @@ export type Database = {
           id?: string
           name?: string | null
           token?: string | null
+          examId? : string | null
         }
         Relationships: []
       }
@@ -139,18 +142,21 @@ export type Database = {
           created_by: string | null
           id: string
           name: string | null
+          duration: number | null
         }
         Insert: {
           created_at?: string | null
           created_by?: string | null
           id?: string
           name?: string | null
+          duration?: number | null
         }
         Update: {
           created_at?: string | null
           created_by?: string | null
           id?: string
           name?: string | null
+          duration?: number | null
         }
         Relationships: []
       }
@@ -165,7 +171,7 @@ export type Database = {
           challenge_id: string
           created_at?: string | null
           exam_id: string
-          id?: number
+          id?: number,
         }
         Update: {
           challenge_id?: string

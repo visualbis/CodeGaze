@@ -76,7 +76,8 @@ const CandidateAssessment = () => {
         const userData = {
             emailId: values.email,
             name: values.name,
-        };
+            examId: examId
+        };    
         createCandidate(userData)
             .then((candidateData: Candidate) => {
                 setLoading(false);
