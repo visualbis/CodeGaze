@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
-import { AssessmentQueryResult } from "../../Dashboard/Dashboard";
+import dayjs from 'dayjs';
+import { AssessmentQueryResult } from '../../Dashboard/Dashboard';
 
 export default class CandidateAssessmentUtils {
     static getTimeTaken(assessment: AssessmentQueryResult[number]) {
@@ -7,13 +7,17 @@ export default class CandidateAssessmentUtils {
             const timeTaken = dayjs(`${assessment.finished}+00:00`).diff(dayjs(assessment.created_at), 'minute');
             return isNaN(timeTaken) ? 'In Process' : `${timeTaken} minutes`;
         }
-        return ''
+        return '';
     }
 
     static getScore(assessment: AssessmentQueryResult[number]) {
-        const result = assessment?.result as unknown as Array<boolean> || [];
+        const result = (assessment?.result as unknown as Array<boolean>) || [];
         const correctTestCases = result.reduce((acc, curr) => (curr ? acc + 1 : acc), 0) / result.length;
         const percentageOfCorrectTestCases = Math.round(correctTestCases * 100);
-        return isNaN(percentageOfCorrectTestCases) ? 0 :percentageOfCorrectTestCases;
+        return isNaN(percentageOfCorrectTestCases) ? 0 : percentageOfCorrectTestCases;
+    }
+
+    static isBase64(str: string) {
+        return /^[A-Za-z0-9+/]+={0,2}$/.test(str) && str.length % 4 === 0;
     }
 }
