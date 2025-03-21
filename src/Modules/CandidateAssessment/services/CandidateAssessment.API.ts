@@ -4,6 +4,7 @@ import { AssessmentUpdateDto, CandidateInsertDto, Status } from '../../../types/
 import { DatabaseCode } from '../../../types/Util.types';
 import { supabase } from '../../API/supabase';
 import { CodeOutput } from '../../../types/Evaluator.types';
+import CandidateAssessmentUtils from './CanidadateAssessment.utils';
 
 export class CandidateAssessmentAPIService {
     static async getAll() {
@@ -80,13 +81,14 @@ export class CandidateAssessmentAPIService {
             language_id,
         });
         const data = response.data;
-        const convertToString = (base64String: string) => base64String ? decode(base64String) : base64String;
+        const convertToString = (base64String: string) =>
+            base64String && CandidateAssessmentUtils.isBase64(base64String) ? decode(base64String) : base64String;
         return {
             ...data,
             stdout: convertToString(data.stdout),
             stderr: convertToString(data.stderr),
             compile_output: convertToString(data.compile_output),
-        }
+        };
     }
 
     static async submit(payload: Pick<AssessmentUpdateDto, 'code' | 'language' | 'id'>) {

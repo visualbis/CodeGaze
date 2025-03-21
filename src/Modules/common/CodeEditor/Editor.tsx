@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAutosave } from 'react-autosave';
+import { Typography } from 'antd';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+const { Title } = Typography;
+
 // SplitPane imports
 import SplitPane, { Pane } from 'split-pane-react';
 import 'split-pane-react/esm/themes/default.css';
@@ -20,17 +25,13 @@ import { CodeGenerator } from '../../CodeGeneration/CodeGenerator';
 import { CodeEvaluator } from '../../CodeEvaluator/CodeEvaluator';
 import { AssessmentUpdateDto, Challenge } from '../../../types/Models';
 import classes from './Editor.module.css';
-import { useDispatch } from 'react-redux';
 import { IDispatch, IRootState } from '../../../store';
 import { supabase } from '../../API/supabase';
 import { FUNCTIONS } from '../../../constants/functions.constants';
-import { toast } from 'react-toastify';
 import { ROUTES } from '../../../constants/Route.constants';
 import './styles/Editor.css';
-import { Typography } from 'antd';
 import { invokeSupabaseFunction } from '../../API/APIUtils';
-const { Title } = Typography;
-    
+
 interface IProps {
     assessment: IRootState['assessment'];
     challenge: Challenge;
@@ -185,7 +186,7 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
     };
 
     useAutosave({ data: code, onSave: saveCode, interval: 1000 });
-    
+
     return (
         <div>
             <div className={classes.main} style={{ padding: '1rem' }}>
@@ -197,10 +198,10 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
                         return <div></div>;
                     }}
                 >
-                     <Pane>
+                    <Pane>
                         <QuestionContent challenge={challenge} editorStyles={{ height: 'calc(100% - 30px)' }} />
                     </Pane>
-                    <Pane className={classes.Resizer} style={{ margin: '2px'}}>
+                    <Pane className={classes.Resizer} style={{ margin: '2px' }}>
                         <CodeEditor
                             languageName={selectEditorLanguage.name}
                             handleLanguageChange={handleLanguageChange}
@@ -211,7 +212,9 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
                             lastSaved={lastSaved}
                             codeEditorLang={selectEditorLanguage.lang}
                             handleCodeChange={handleCodeChange}
-                            hideLanguageSelection ={isReportPage}
+                            hideLanguageSelection={isReportPage}
+                            handleRun={handleRun}
+                            assessmentId={challenge.id}
                         />
                     </Pane>
                     <Pane>
@@ -224,7 +227,7 @@ const Editor = ({ challenge, assessment, candidate, isReportPage }: IProps) => {
                                 handleTestCase={handleTestCase}
                                 submitLoading={submitLoading}
                                 handleSubmit={handleSubmit}
-                                hideSubmitButton = {isReportPage}
+                                hideSubmitButton={isReportPage}
                             />
                             <Title level={4}>
                                 Test Cases{' '}
