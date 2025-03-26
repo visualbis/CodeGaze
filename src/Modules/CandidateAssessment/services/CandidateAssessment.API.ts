@@ -81,8 +81,7 @@ export class CandidateAssessmentAPIService {
             language_id,
         });
         const data = response.data;
-        const convertToString = (base64String: string) =>
-            base64String && CandidateAssessmentUtils.isBase64(base64String) ? decode(base64String) : base64String;
+        const convertToString = (base64String: string) => (base64String ? decode(base64String) : base64String);
         return {
             ...data,
             stdout: convertToString(data.stdout),
